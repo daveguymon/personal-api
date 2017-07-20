@@ -1,4 +1,6 @@
 const user = require('./../user');
+const skillz = require('./../skillz');
+const secrets = require('./../secrets');
 
 module.exports = {
   getName: (req, res) => {
@@ -101,6 +103,31 @@ module.exports = {
       }
       user.restaurants.push(newRestaurant);
       res.status(200).json(user.restaurants);
+    },
+
+    retrieveSkillz: (req, res) => {
+      if(req.query.experience) {
+        let filteredSkillz = skillz.filter((s) => s.experience == req.query.experience)
+        res.status(200).json(filteredSkillz)
+      } else {
+      res.status(200).json(skillz)
+      }
+    },
+
+    postSkillz: (req, res) => {
+      console.log('post skills');
+      let newSkill = {
+        id: req.body.id,
+        name: req.body.name,
+        experience: req.body.experience
+      }
+      skillz.push(newSkill);
+      res.status(200).json(skillz);
+    },
+
+    grantAccess: (req, res) => {
+      res.status(200).json(secrets);
     }
+
 
 }

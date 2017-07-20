@@ -3,8 +3,8 @@ const bodyParser = require('body-parser');
 const middleware = require('./controllers/middleware');
 const mainCtrl = require('./controllers/mainCtrl');
 
-
 const app = express();
+
 
 app.use(bodyParser.json());
 app.use(middleware.addHeaders);
@@ -27,6 +27,12 @@ app.post('/api/hobbies', mainCtrl.addToHobbies);
 app.post('/api/occupations', mainCtrl.addToOccupations);
 app.post('/api/family', mainCtrl.addToFamily);
 app.post('/api/restaurants', mainCtrl.addToRestaurants);
+
+app.get('/api/skillz', mainCtrl.retrieveSkillz);
+app.post('/api/skillz', middleware.generateId, mainCtrl.postSkillz);
+
+app.get('/api/secrets/:username/:pin', middleware.verifyUser, mainCtrl.grantAccess);
+
 
 const port=3000;
 app.listen(port, ()=>console.log(`NSA is listening on port ${port}.`));
